@@ -409,13 +409,58 @@ const App = () => {
           </button>
         </div>
       </nav>
-      <div className={`mobile-overlay ${menuOpen ? 'open' : ''}`} onClick={() => setMenuOpen(false)} />
-      <div className={`mobile-drawer ${menuOpen ? 'open' : ''}`}>
-        {[{l:'Çözümler',id:'cozumler'},{l:'Nasıl Çalışır',id:'nasil'},{l:'Referanslar',id:'referanslar'},{l:'SSS',id:'sss'},{l:'İletişim',id:'iletisim'}].map(i => (
-          <a key={i.id} href={`#${i.id}`} className="nav-link" onClick={e => { e.preventDefault(); scrollTo(i.id); }}>{i.l}</a>
-        ))}
-        <button className="nav-cta" onClick={() => scrollTo('iletisim')}>Teklif Al</button>
-      </div>
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            <motion.div 
+              className="mobile-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMenuOpen(false)} 
+            />
+            <motion.div 
+              className="mobile-drawer"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            >
+              <div className="drawer-header">
+                <img src="/evos_logo.png" alt="EVOS" className="drawer-logo" />
+                <button className="drawer-close" onClick={() => setMenuOpen(false)}><X size={24} /></button>
+              </div>
+              <div className="drawer-links">
+                {[{l:'Çözümler',id:'cozumler'},{l:'Nasıl Çalışır',id:'nasil'},{l:'Referanslar',id:'referanslar'},{l:'SSS',id:'sss'},{l:'İletişim',id:'iletisim'}].map((item, index) => (
+                  <motion.a 
+                    key={item.id} 
+                    href={`#${item.id}`} 
+                    className="drawer-link" 
+                    onClick={e => { e.preventDefault(); scrollTo(item.id); }}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.1 + index * 0.05 }}
+                  >
+                    {item.l} <ChevronRight size={18} className="link-arrow" />
+                  </motion.a>
+                ))}
+              </div>
+              <div className="drawer-footer">
+                <button className="drawer-cta" onClick={() => scrollTo('iletisim')}>Hemen Teklif Al</button>
+                <div className="drawer-socials">
+                  <a href="https://www.instagram.com/evossmarthome/" target="_blank" rel="noopener noreferrer">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* ═══ HERO ═══ */}
       <section className="hero" style={{ backgroundImage: "url('/hero-bg.png')" }}>
