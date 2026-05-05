@@ -152,11 +152,11 @@ img{max-width:100%;display:block;}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;}
 .logo{display:flex;align-items:center;gap:12px;z-index:1001;}
 .logo-image{
-  height:72px;width:auto;
+  height:110px;width:auto;
   transition:var(--transition);
   filter:drop-shadow(0 2px 8px rgba(17,148,240,0.15));
 }
-.navbar.scrolled .logo-image{height:56px;}
+.navbar.scrolled .logo-image{height:72px;}
 .logo:hover .logo-image{transform:scale(1.05);filter:drop-shadow(0 4px 16px rgba(17,148,240,0.3));}
 
 .nav-menu{display:none;align-items:center;gap:4px;}

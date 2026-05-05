@@ -426,11 +426,6 @@ const App = () => {
 
         <div className="container hero-grid">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <div className="hero-badge">
-              <span className="hero-badge-dot" />
-              <span className="hero-badge-text">Yeni Nesil Akıllı Ev</span>
-              <span className="hero-badge-tag">2026</span>
-            </div>
             <h1 className="hero-title">
               Evinizi{' '}
               <span className="hero-title-accent"><span className="hero-title-accent-text">Geleceğe</span></span>
