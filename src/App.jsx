@@ -49,7 +49,20 @@ const ParticleNetwork = () => {
     canvas.parentElement.addEventListener('mousemove', handleMouse);
     canvas.parentElement.addEventListener('mouseleave', handleLeave);
 
+    let isVisible = true;
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible && !rafRef.current) {
+        draw();
+      } else if (!isVisible) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    });
+    observer.observe(canvas);
+
     const draw = () => {
+      if (!isVisible) return;
       const cw = canvas.offsetWidth;
       const ch = canvas.offsetHeight;
       ctx.clearRect(0, 0, cw, ch);
@@ -65,7 +78,6 @@ const ParticleNetwork = () => {
         if (p.x < 0 || p.x > cw) p.vx *= -1;
         if (p.y < 0 || p.y > ch) p.vy *= -1;
 
-        // Mouse attraction
         const dxm = mx - p.x;
         const dym = my - p.y;
         const distM = Math.sqrt(dxm * dxm + dym * dym);
@@ -79,7 +91,6 @@ const ParticleNetwork = () => {
         ctx.fillStyle = 'rgba(17,148,240,0.25)';
         ctx.fill();
 
-        // Draw lines
         for (let j = i + 1; j < pts.length; j++) {
           const q = pts[j];
           const dx = p.x - q.x;
@@ -95,7 +106,6 @@ const ParticleNetwork = () => {
           }
         }
 
-        // Mouse lines
         if (distM < 200) {
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
@@ -114,6 +124,7 @@ const ParticleNetwork = () => {
       window.removeEventListener('resize', resize);
       canvas.parentElement?.removeEventListener('mousemove', handleMouse);
       canvas.parentElement?.removeEventListener('mouseleave', handleLeave);
+      observer.disconnect();
     };
   }, []);
 
@@ -393,7 +404,7 @@ const App = () => {
               initial={{ opacity: 0, scale: 0.8 }} 
               animate={{ opacity: 1, scale: 1 }} 
               transition={{ duration: 0.5, type: 'spring', stiffness: 200 }}
-              src="/evos_logo.png" 
+              src="/evos_logo.webp" 
               alt="EVOS Smarthome" 
               className="logo-image" 
             />
@@ -404,9 +415,11 @@ const App = () => {
             ))}
             <button className="nav-cta" onClick={() => scrollTo('iletisim')}>Teklif Al</button>
           </div>
-          <button className="mobile-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          {!menuOpen && (
+            <button className="mobile-toggle" onClick={() => setMenuOpen(true)}>
+              <Menu size={20} />
+            </button>
+          )}
         </div>
       </nav>
       <AnimatePresence>
@@ -427,7 +440,7 @@ const App = () => {
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             >
               <div className="drawer-header">
-                <img src="/evos_logo.png" alt="EVOS" className="drawer-logo" />
+                <img src="/evos_logo.webp" alt="EVOS" className="drawer-logo" />
                 <button className="drawer-close" onClick={() => setMenuOpen(false)}><X size={24} /></button>
               </div>
               <div className="drawer-links">
@@ -463,7 +476,7 @@ const App = () => {
       </AnimatePresence>
 
       {/* ═══ HERO ═══ */}
-      <section className="hero" style={{ backgroundImage: "url('/hero-bg.png')" }}>
+      <section className="hero" style={{ backgroundImage: "url('/hero-bg.webp')" }}>
         <ParticleNetwork />
         <div className="blob-a mesh-blob" style={{ top: '-100px', right: '0px' }} />
         <div className="blob-b mesh-blob" style={{ bottom: '-100px', left: '-80px' }} />
@@ -502,7 +515,7 @@ const App = () => {
             className="hero-image-wrapper"
           >
             <div className="hero-image-glow" />
-            <img src="/evos_hero.png" alt="EVOS Akıllı Ev 3D Görünüm" className="hero-image" />
+            <img src="/evos_hero.webp" alt="EVOS Akıllı Ev 3D Görünüm" className="hero-image" />
             <div className="dashboard-float dashboard-float-1">
               <div className="float-icon" style={{ background: 'rgba(6,214,160,0.1)' }}><Check size={16} color="#06D6A0" /></div>
               <div><div className="float-text">Bağlantı Şifreli</div><div className="float-sub">Uçtan uca güvenlik</div></div>
@@ -731,7 +744,7 @@ const App = () => {
           <div className="footer-grid">
             <div>
               <div className="footer-brand">
-                <img src="/evos_logo.png" alt="EVOS Smarthome" className="footer-logo-image" />
+                <img src="/evos_logo.webp" alt="EVOS Smarthome" className="footer-logo-image" />
               </div>
               <p className="footer-about">Akıllı ev teknolojilerinde öncü çözümler sunarak yaşam alanlarınızı dönüştürüyoruz.</p>
               <div className="footer-socials">

@@ -192,7 +192,7 @@ img{max-width:100%;display:block;}
   display:flex;flex-direction:column;padding:32px 24px;
 }
 .drawer-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;border-bottom:1px solid rgba(0,0,0,0.05);padding-bottom:20px;}
-.drawer-logo{height:40px;width:auto;filter:drop-shadow(0 2px 8px rgba(17,148,240,0.15));}
+.drawer-logo{height:52px;width:auto;filter:drop-shadow(0 2px 8px rgba(17,148,240,0.15));}
 .drawer-close{width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,0.03);display:flex;align-items:center;justify-content:center;color:var(--text-1);transition:var(--transition);}
 .drawer-close:hover{background:rgba(239,68,68,0.1);color:#ef4444;}
 .drawer-links{display:flex;flex-direction:column;gap:12px;flex:1;}
