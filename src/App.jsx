@@ -760,13 +760,13 @@ const App = () => {
               </div>
             </div>
             <div>
-              <h4 className="footer-col-title">Çözümler</h4>
+              <h3 className="footer-col-title">Çözümler</h3>
               <ul className="footer-links">
                 {['Aydınlatma Kontrolü', 'İklimlendirme', 'Güvenlik Sistemleri', 'Ses ve Görüntü', 'Enerji Yönetimi'].map(l => <li key={l}><a href="#" onClick={e => e.preventDefault()}>{l}</a></li>)}
               </ul>
             </div>
             <div>
-              <h4 className="footer-col-title">Şirket</h4>
+              <h3 className="footer-col-title">Şirket</h3>
               <ul className="footer-links">
                 <li><a href="#nasil" onClick={e => { e.preventDefault(); scrollTo('nasil'); }}>Nasıl Çalışır</a></li>
                 <li><a href="#referanslar" onClick={e => { e.preventDefault(); scrollTo('referanslar'); }}>Müşteri Yorumları</a></li>
@@ -775,7 +775,7 @@ const App = () => {
               </ul>
             </div>
             <div>
-              <h4 className="footer-col-title">Bültene Katılın</h4>
+              <h3 className="footer-col-title">Bültene Katılın</h3>
               <div className="footer-newsletter">
                 <p>Akıllı ev dünyasından haberler ve özel teklifler.</p>
                 <form className="footer-newsletter-form" onSubmit={e => e.preventDefault()}>
