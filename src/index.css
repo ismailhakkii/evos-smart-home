@@ -591,7 +591,7 @@ img{max-width:100%;display:block;}
 .footer-about{font-size:14px;color:var(--text-3);line-height:1.7;max-width:280px;}
 .footer-socials{display:flex;gap:10px;margin-top:20px;}
 .footer-social{
-  width:36px;height:36px;border-radius:10px;
+  width:48px;height:48px;border-radius:12px;
   background:rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.05);
   display:flex;align-items:center;justify-content:center;
   color:var(--text-3);transition:var(--transition);font-size:13px;font-weight:700;

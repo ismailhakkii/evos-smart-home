@@ -407,6 +407,8 @@ const App = () => {
               src="/evos_logo.webp" 
               alt="EVOS Smarthome" 
               className="logo-image" 
+              width="150" 
+              height="72"
             />
           </a>
           <div className="nav-menu">
@@ -416,7 +418,7 @@ const App = () => {
             <button className="nav-cta" onClick={() => scrollTo('iletisim')}>Teklif Al</button>
           </div>
           {!menuOpen && (
-            <button className="mobile-toggle" onClick={() => setMenuOpen(true)}>
+            <button className="mobile-toggle" aria-label="Menüyü Aç" onClick={() => setMenuOpen(true)}>
               <Menu size={20} />
             </button>
           )}
@@ -440,8 +442,8 @@ const App = () => {
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             >
               <div className="drawer-header">
-                <img src="/evos_logo.webp" alt="EVOS" className="drawer-logo" />
-                <button className="drawer-close" onClick={() => setMenuOpen(false)}><X size={24} /></button>
+                <img src="/evos_logo.webp" alt="EVOS" className="drawer-logo" width="120" height="52" />
+                <button className="drawer-close" aria-label="Menüyü Kapat" onClick={() => setMenuOpen(false)}><X size={24} /></button>
               </div>
               <div className="drawer-links">
                 {[{l:'Çözümler',id:'cozumler'},{l:'Nasıl Çalışır',id:'nasil'},{l:'Referanslar',id:'referanslar'},{l:'SSS',id:'sss'},{l:'İletişim',id:'iletisim'}].map((item, index) => (
@@ -461,7 +463,7 @@ const App = () => {
               <div className="drawer-footer">
                 <button className="drawer-cta" onClick={() => scrollTo('iletisim')}>Hemen Teklif Al</button>
                 <div className="drawer-socials">
-                  <a href="https://www.instagram.com/evossmarthome/" target="_blank" rel="noopener noreferrer">
+                  <a href="https://www.instagram.com/evossmarthome/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -515,7 +517,7 @@ const App = () => {
             className="hero-image-wrapper"
           >
             <div className="hero-image-glow" />
-            <img src="/evos_hero.webp" alt="EVOS Akıllı Ev 3D Görünüm" className="hero-image" />
+            <img src="/evos_hero.webp" alt="EVOS Akıllı Ev 3D Görünüm" className="hero-image" width="600" height="600" />
             <div className="dashboard-float dashboard-float-1">
               <div className="float-icon" style={{ background: 'rgba(6,214,160,0.1)' }}><Check size={16} color="#06D6A0" /></div>
               <div><div className="float-text">Bağlantı Şifreli</div><div className="float-sub">Uçtan uca güvenlik</div></div>
@@ -615,7 +617,7 @@ const App = () => {
                 transition={{ duration: 0.6, delay: i * 0.15, ease: 'easeOut' }}
               >
                 <div className="process-number">{i + 1}</div>
-                <h4>{s.title}</h4>
+                <h3>{s.title}</h3>
                 <p>{s.desc}</p>
               </motion.div>
             ))}
@@ -645,16 +647,16 @@ const App = () => {
                   <p className="testimonial-text">"{t.text}"</p>
                   <div className="testimonial-author">
                     <div className="testimonial-avatar" style={{ background: t.color }}>{t.name.split(' ').map(n => n[0]).join('')}</div>
-                    <div className="testimonial-info"><h5>{t.name}</h5><p>{t.role}</p></div>
+                    <div className="testimonial-info"><h3>{t.name}</h3><p>{t.role}</p></div>
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
           <div className="slider-controls">
-            <button className="slider-btn" onClick={() => setTestimonialIdx(p => (p - 1 + totalSlides) % totalSlides)}><ChevronLeft size={18} /></button>
-            <div className="slider-dots">{[...Array(totalSlides)].map((_, i) => <button key={i} className={`slider-dot ${testimonialIdx === i ? 'active' : ''}`} onClick={() => setTestimonialIdx(i)} />)}</div>
-            <button className="slider-btn" onClick={() => setTestimonialIdx(p => (p + 1) % totalSlides)}><ChevronRight size={18} /></button>
+            <button className="slider-btn" aria-label="Önceki Yorum" onClick={() => setTestimonialIdx(p => (p - 1 + totalSlides) % totalSlides)}><ChevronLeft size={18} /></button>
+            <div className="slider-dots">{[...Array(totalSlides)].map((_, i) => <button key={i} aria-label={`Yorum ${i + 1} Git`} className={`slider-dot ${testimonialIdx === i ? 'active' : ''}`} onClick={() => setTestimonialIdx(i)} />)}</div>
+            <button className="slider-btn" aria-label="Sonraki Yorum" onClick={() => setTestimonialIdx(p => (p + 1) % totalSlides)}><ChevronRight size={18} /></button>
           </div>
         </div>
       </section>
@@ -744,11 +746,11 @@ const App = () => {
           <div className="footer-grid">
             <div>
               <div className="footer-brand">
-                <img src="/evos_logo.webp" alt="EVOS Smarthome" className="footer-logo-image" />
+                <img src="/evos_logo.webp" alt="EVOS Smarthome" className="footer-logo-image" width="150" height="72" />
               </div>
               <p className="footer-about">Akıllı ev teknolojilerinde öncü çözümler sunarak yaşam alanlarınızı dönüştürüyoruz.</p>
               <div className="footer-socials">
-                <a href="https://www.instagram.com/evossmarthome/" target="_blank" rel="noopener noreferrer" className="footer-social">
+                <a href="https://www.instagram.com/evossmarthome/" target="_blank" rel="noopener noreferrer" className="footer-social" aria-label="Instagram">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -792,7 +794,7 @@ const App = () => {
         </div>
       </footer>
 
-      <button className={`scroll-top ${scrollY > 400 ? 'visible' : ''}`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}><ArrowUp size={20} /></button>
+      <button className={`scroll-top ${scrollY > 400 ? 'visible' : ''}`} aria-label="Yukarı Çık" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}><ArrowUp size={20} /></button>
     </div>
   );
 };
