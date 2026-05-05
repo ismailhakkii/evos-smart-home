@@ -280,10 +280,10 @@ const App = () => {
 
   // Testimonials
   const testimonials = [
-    { name: 'Ahmet Yılmaz', role: 'Villa Sahibi, Bodrum', text: 'EVOS ile evimizi tamamen akıllı hale getirdik. Enerji tasarrufumuz %35 arttı, güvenlik sistemi mükemmel çalışıyor.', color: '#1194F0' },
-    { name: 'Elif Kara', role: 'Mimar, İstanbul', text: 'Müşterilerime sürekli EVOS\'u öneriyorum. Kurulum süreci çok profesyonel, sistem entegrasyonu kusursuz.', color: '#7C5DFA' },
-    { name: 'Burak Demir', role: 'İşletme Sahibi, Ankara', text: 'Ofisimiz için EVOS akıllı otomasyon sistemi kurduk. Toplantı odaları, aydınlatma tamamen otomatik.', color: '#06D6A0' },
-    { name: 'Selin Öztürk', role: 'Ev Hanımı, İzmir', text: 'Çocuklarımız için güvenlik kameraları ve kapı kilitleri. Her şey telefondan kontrol ediliyor.', color: '#FF6B35' },
+    { name: 'Ahmet Yılmaz', role: 'Villa Sahibi, Bodrum', text: 'Tüm iklimlendirme ve aydınlatma senaryolarını telefonumdan yönetmek inanılmaz bir lüks. EVOS ile enerji faturamızda %35 tasarruf sağladık.', color: '#1194F0' },
+    { name: 'Elif Kara', role: 'Mimar, İstanbul', text: 'Lüks konut projelerimizde müşterilerime standart olarak EVOS öneriyorum. Kurulumdaki profesyonellik ve sistemin kesintisiz çalışması kusursuz.', color: '#7C5DFA' },
+    { name: 'Burak Demir', role: 'İşletme Sahibi, Ankara', text: 'Ofisimizin tüm otomasyonunu EVOS\'a emanet ettik. Mesai saatlerine göre kendi kendini ayarlayan sistem sayesinde güvenlik endişemiz kalmadı.', color: '#06D6A0' },
+    { name: 'Selin Öztürk', role: 'Ev Hanımı, İzmir', text: 'Dışarıdayken çocukların eve girdiğini anlık görebilmek paha biçilemez. Kullanımı o kadar kolay ki evin vazgeçilmezi oldu.', color: '#FF6B35' },
   ];
   const totalSlides = typeof window !== 'undefined' && window.innerWidth >= 768 ? Math.ceil(testimonials.length / 2) : testimonials.length;
 
@@ -465,11 +465,11 @@ const App = () => {
             <img src="/evos_hero.png" alt="EVOS Akıllı Ev 3D Görünüm" className="hero-image" />
             <div className="dashboard-float dashboard-float-1">
               <div className="float-icon" style={{ background: 'rgba(6,214,160,0.1)' }}><Check size={16} color="#06D6A0" /></div>
-              <div><div className="float-text">Sistem Güncel</div><div className="float-sub">v4.2.1</div></div>
+              <div><div className="float-text">Bağlantı Şifreli</div><div className="float-sub">Uçtan uca güvenlik</div></div>
             </div>
             <div className="dashboard-float dashboard-float-2">
               <div className="float-icon" style={{ background: 'rgba(17,148,240,0.1)' }}><Shield size={16} color="#1194F0" /></div>
-              <div><div className="float-text">Güvenlik Aktif</div><div className="float-sub">Tüm sensörler</div></div>
+              <div><div className="float-text">Sistem Aktif</div><div className="float-sub">Tüm sensörler devrede</div></div>
             </div>
           </motion.div>
         </div>
@@ -657,6 +657,7 @@ const App = () => {
                       <div className="form-group">
                         <label className="form-label">Ad Soyad *</label>
                         <input type="text" className={`form-input ${formErrors.name ? 'error' : ''}`} placeholder="Adınız Soyadınız" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+                        {formErrors.name && <span className="error-text">Bu alan zorunludur</span>}
                       </div>
                       <div className="form-group">
                         <label className="form-label">Telefon</label>
@@ -666,10 +667,12 @@ const App = () => {
                     <div className="form-group">
                       <label className="form-label">E-posta *</label>
                       <input type="email" className={`form-input ${formErrors.email ? 'error' : ''}`} placeholder="ornek@email.com" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                      {formErrors.email && <span className="error-text">Geçerli bir e-posta giriniz</span>}
                     </div>
                     <div className="form-group">
                       <label className="form-label">Mesajınız *</label>
                       <textarea className={`form-textarea ${formErrors.message ? 'error' : ''}`} placeholder="Projeniz hakkında bilgi verin..." value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})} />
+                      {formErrors.message && <span className="error-text">Lütfen mesajınızı yazınız</span>}
                     </div>
                     <button type="submit" className="form-submit" disabled={formLoading}>
                       {formLoading ? <>Gönderiliyor...</> : <>Mesaj Gönder <Send size={16} /></>}
