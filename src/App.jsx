@@ -317,13 +317,32 @@ const App = () => {
     if (!formData.message.trim()) err.message = true;
     return err;
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const err = validateForm();
     setFormErrors(err);
     if (Object.keys(err).length > 0) return;
     setFormLoading(true);
-    setTimeout(() => { setFormLoading(false); setFormSubmitted(true); }, 1500);
+
+    try {
+      // Formu Web3Forms API ile gönder
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: "BURAYA_WEB3FORMS_ACCESS_KEY_GELECEK", // web3forms.com'dan alınan key
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message,
+        }),
+      });
+      if (response.ok) setFormSubmitted(true);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setFormLoading(false);
+    }
   };
 
   const scrollTo = (id) => {
@@ -673,7 +692,13 @@ const App = () => {
               </div>
               <p className="footer-about">Akıllı ev teknolojilerinde öncü çözümler sunarak yaşam alanlarınızı dönüştürüyoruz.</p>
               <div className="footer-socials">
-                {['in', 'tw', 'ig', 'yt'].map(s => <a key={s} href="#" className="footer-social" onClick={e => e.preventDefault()}>{s}</a>)}
+                <a href="https://www.instagram.com/evossmarthome/" target="_blank" rel="noopener noreferrer" className="footer-social">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                </a>
               </div>
             </div>
             <div>
@@ -685,7 +710,10 @@ const App = () => {
             <div>
               <h4 className="footer-col-title">Şirket</h4>
               <ul className="footer-links">
-                {['Hakkımızda', 'Projelerimiz', 'Blog', 'Kariyer', 'İletişim'].map(l => <li key={l}><a href="#" onClick={e => e.preventDefault()}>{l}</a></li>)}
+                <li><a href="#nasil" onClick={e => { e.preventDefault(); scrollTo('nasil'); }}>Nasıl Çalışır</a></li>
+                <li><a href="#referanslar" onClick={e => { e.preventDefault(); scrollTo('referanslar'); }}>Müşteri Yorumları</a></li>
+                <li><a href="#sss" onClick={e => { e.preventDefault(); scrollTo('sss'); }}>SSS</a></li>
+                <li><a href="#iletisim" onClick={e => { e.preventDefault(); scrollTo('iletisim'); }}>İletişim</a></li>
               </ul>
             </div>
             <div>
@@ -702,8 +730,7 @@ const App = () => {
           <div className="footer-bottom">
             <p>&copy; {new Date().getFullYear()} EVOS Smarthome. Tüm hakları saklıdır.</p>
             <div className="footer-bottom-links">
-              <a href="#" onClick={e => e.preventDefault()}>Gizlilik Politikası</a>
-              <a href="#" onClick={e => e.preventDefault()}>Kullanım Koşulları</a>
+              {/* Daha sonra eklenecek gizlilik sayfaları buraya gelecek */}
             </div>
           </div>
         </div>
