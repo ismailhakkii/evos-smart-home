@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Wifi, Home, Settings, Shield, Zap, ChevronRight, ChevronLeft,
+  Home, Settings, Shield, Zap, ChevronRight, ChevronLeft,
   Menu, X, Thermometer, Volume2, Smartphone, ArrowRight, ArrowUp,
   Check, Star, Plus, Phone, Mail, MapPin, Send, CheckCircle2,
-  Activity, Lock, Lightbulb, Camera, Wind, Radio
+  Lightbulb, Camera, Radio, MessageCircle
 } from 'lucide-react';
 import './index.css';
 
@@ -131,41 +131,7 @@ const ParticleNetwork = () => {
   return <canvas ref={canvasRef} className="particle-canvas" style={{ width: '100%', height: '100%' }} />;
 };
 
-/* ═══════════════════════════════════════════════
-   MINI ENERGY CHART (SVG animated)
-   ═══════════════════════════════════════════════ */
-const EnergyChart = () => {
-  const [offset, setOffset] = useState(0);
-  useEffect(() => {
-    const timer = setInterval(() => setOffset(prev => (prev + 1) % 100), 80);
-    return () => clearInterval(timer);
-  }, []);
 
-  const points = useMemo(() => {
-    const pts = [];
-    for (let i = 0; i <= 20; i++) {
-      const x = (i / 20) * 100;
-      const y = 50 + Math.sin((i + offset) * 0.4) * 18 + Math.cos((i + offset) * 0.2) * 10;
-      pts.push(`${x},${y}`);
-    }
-    return pts.join(' ');
-  }, [offset]);
-
-  const areaPoints = `0,90 ${points} 100,90`;
-
-  return (
-    <svg viewBox="0 0 100 90" preserveAspectRatio="none" style={{ width: '100%', height: '48px' }}>
-      <defs>
-        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="rgba(6,214,160,0.3)" />
-          <stop offset="100%" stopColor="rgba(6,214,160,0)" />
-        </linearGradient>
-      </defs>
-      <polygon points={areaPoints} fill="url(#chartGrad)" />
-      <polyline points={points} fill="none" stroke="#06D6A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-};
 
 /* ═══════════════════════════════════════════════
    ANIMATED COUNTER HOOK
@@ -193,42 +159,7 @@ function useCounter(target, duration = 2000) {
 /* ═══════════════════════════════════════════════
    DATA
    ═══════════════════════════════════════════════ */
-const roomsData = {
-  salon: { label: 'Salon', devices: [
-    { id: 's1', name: 'Aydınlatma', icon: 'zap', type: 'energy', on: true, slider: true, value: 80 },
-    { id: 's2', name: 'Güvenlik', icon: 'shield', type: 'security', on: true, slider: false },
-    { id: 's3', name: 'Klima', icon: 'thermo', type: 'climate', on: true, slider: true, value: 22 },
-    { id: 's4', name: 'Müzik', icon: 'audio', type: 'audio', on: false, slider: true, value: 40 },
-  ]},
-  yatak: { label: 'Yatak Odası', devices: [
-    { id: 'y1', name: 'Abajur', icon: 'zap', type: 'energy', on: true, slider: true, value: 30 },
-    { id: 'y2', name: 'Perde', icon: 'shield', type: 'security', on: false, slider: false },
-    { id: 'y3', name: 'Klima', icon: 'thermo', type: 'climate', on: true, slider: true, value: 20 },
-    { id: 'y4', name: 'Hoparlör', icon: 'audio', type: 'audio', on: true, slider: true, value: 25 },
-  ]},
-  mutfak: { label: 'Mutfak', devices: [
-    { id: 'm1', name: 'Tezgah Işığı', icon: 'zap', type: 'energy', on: true, slider: true, value: 100 },
-    { id: 'm2', name: 'Kamera', icon: 'shield', type: 'security', on: true, slider: false },
-    { id: 'm3', name: 'Havalandırma', icon: 'thermo', type: 'climate', on: false, slider: true, value: 50 },
-    { id: 'm4', name: 'Radyo', icon: 'audio', type: 'audio', on: false, slider: true, value: 60 },
-  ]},
-  bahce: { label: 'Bahçe', devices: [
-    { id: 'b1', name: 'Dış Aydınlatma', icon: 'zap', type: 'energy', on: false, slider: true, value: 70 },
-    { id: 'b2', name: 'Alarm', icon: 'shield', type: 'security', on: true, slider: false },
-    { id: 'b3', name: 'Sulama', icon: 'thermo', type: 'climate', on: false, slider: false },
-    { id: 'b4', name: 'Bahçe Müzik', icon: 'audio', type: 'audio', on: false, slider: true, value: 30 },
-  ]}
-};
 
-const DeviceIcon = ({ type, size = 20 }) => {
-  switch (type) {
-    case 'zap': return <Zap size={size} />;
-    case 'shield': return <Shield size={size} />;
-    case 'thermo': return <Thermometer size={size} />;
-    case 'audio': return <Volume2 size={size} />;
-    default: return <Settings size={size} />;
-  }
-};
 
 const marqueeItems = [
   { name: 'Google Home', icon: <Home size={16} /> },
@@ -247,15 +178,12 @@ const marqueeItems = [
 const App = () => {
   const [scrollY, setScrollY] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeRoom, setActiveRoom] = useState('salon');
-  const [devices, setDevices] = useState(JSON.parse(JSON.stringify(roomsData)));
   const [testimonialIdx, setTestimonialIdx] = useState(0);
   const [openFaq, setOpenFaq] = useState(null);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [formErrors, setFormErrors] = useState({});
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
-  const dashboardRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -274,20 +202,7 @@ const App = () => {
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
-  // 3D tilt on dashboard
-  const handleDashboardMouse = useCallback((e) => {
-    const el = dashboardRef.current;
-    if (!el || window.innerWidth < 1024) return;
-    const rect = el.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = (e.clientX - cx) / (rect.width / 2);
-    const dy = (e.clientY - cy) / (rect.height / 2);
-    el.style.transform = `rotateY(${dx * 4}deg) rotateX(${-dy * 4}deg)`;
-  }, []);
-  const handleDashboardLeave = useCallback(() => {
-    if (dashboardRef.current) dashboardRef.current.style.transform = 'rotateY(0deg) rotateX(0deg)';
-  }, []);
+
 
   // Testimonials
   const testimonials = [
@@ -296,30 +211,21 @@ const App = () => {
     { name: 'Burak Demir', role: 'İşletme Sahibi, Ankara', text: 'Ofisimizin tüm otomasyonunu EVOS\'a emanet ettik. Mesai saatlerine göre kendi kendini ayarlayan sistem sayesinde güvenlik endişemiz kalmadı.', color: '#06D6A0' },
     { name: 'Selin Öztürk', role: 'Ev Hanımı, İzmir', text: 'Dışarıdayken çocukların eve girdiğini anlık görebilmek paha biçilemez. Kullanımı o kadar kolay ki evin vazgeçilmezi oldu.', color: '#FF6B35' },
   ];
-  const totalSlides = typeof window !== 'undefined' && window.innerWidth >= 768 ? Math.ceil(testimonials.length / 2) : testimonials.length;
+
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
+  useEffect(() => {
+    const handleMobileCheck = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleMobileCheck);
+    return () => window.removeEventListener('resize', handleMobileCheck);
+  }, []);
+  const totalSlides = isMobile ? testimonials.length : Math.ceil(testimonials.length / 2);
 
   useEffect(() => {
     const t = setInterval(() => setTestimonialIdx(p => (p + 1) % totalSlides), 5000);
     return () => clearInterval(t);
   }, [totalSlides]);
 
-  const toggleDevice = (room, id) => {
-    setDevices(prev => {
-      const next = JSON.parse(JSON.stringify(prev));
-      const d = next[room].devices.find(x => x.id === id);
-      if (d) d.on = !d.on;
-      return next;
-    });
-  };
 
-  const updateSlider = (room, id, val) => {
-    setDevices(prev => {
-      const next = JSON.parse(JSON.stringify(prev));
-      const d = next[room].devices.find(x => x.id === id);
-      if (d) d.value = parseInt(val);
-      return next;
-    });
-  };
 
   const validateForm = () => {
     const err = {};
@@ -336,16 +242,16 @@ const App = () => {
     setFormLoading(true);
 
     try {
-      // Formu Web3Forms API ile gönder
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
-          access_key: "BURAYA_WEB3FORMS_ACCESS_KEY_GELECEK", // web3forms.com'dan alınan key
+          access_key: "f3a4b1c2-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // TODO: web3forms.com'dan gerçek key al
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
           message: formData.message,
+          subject: "EVOS Smarthome - Yeni İletişim Formu",
         }),
       });
       if (response.ok) setFormSubmitted(true);
@@ -361,7 +267,7 @@ const App = () => {
     setTimeout(() => { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }, 100);
   };
 
-  const currentDevices = devices[activeRoom].devices;
+
 
   const stat1 = useCounter('500', 2000);
   const stat2 = useCounter('98', 1500);
@@ -591,7 +497,7 @@ const App = () => {
                 <div className={`feature-icon-box ${f.cls}`}>{f.icon}</div>
                 <h3 className="feature-title">{f.title}</h3>
                 <p className="feature-desc">{f.desc}</p>
-                <a href="#" className="feature-link" onClick={e => e.preventDefault()}>Detaylı Bilgi <ArrowRight size={14} /></a>
+
               </motion.div>
             ))}
           </div>
@@ -633,7 +539,7 @@ const App = () => {
             <h2 className="section-title">Müşterilerimiz <span className="accent-text">Ne Diyor?</span></h2>
           </div>
           <div style={{ overflow: 'hidden' }}>
-            <div className="testimonials-slider" style={{ transform: `translateX(-${testimonialIdx * (typeof window !== 'undefined' && window.innerWidth >= 768 ? 50 : 100)}%)`, transition: 'transform 0.5s ease' }}>
+            <div className="testimonials-slider" style={{ transform: `translateX(-${testimonialIdx * (isMobile ? 100 : 50)}%)`, transition: 'transform 0.5s ease' }}>
               {testimonials.map((t, i) => (
                 <motion.div 
                   key={i} 
@@ -687,14 +593,14 @@ const App = () => {
               <h2>Evinizi Akıllı Hale Getirmeye Hazır mısınız?</h2>
               <p>Ücretsiz keşif ve projelendirme için hemen bizimle iletişime geçin.</p>
               {[
-                { icon: <Phone size={18} />, label: 'Yetkili', text: 'Hamza Karaaslan' },
-                { icon: <Phone size={18} />, label: 'Telefon', text: '0 533 351 36 44' },
-                { icon: <Mail size={18} />, label: 'E-posta', text: 'info@evossmarthome.com' },
-                { icon: <MapPin size={18} />, label: 'Adres', text: 'Levent, İstanbul' },
+                { icon: <Phone size={18} />, label: 'Yetkili', text: 'Hamza Karaaslan', href: null },
+                { icon: <Phone size={18} />, label: 'Telefon', text: '0 533 351 36 44', href: 'tel:+905333513644' },
+                { icon: <Mail size={18} />, label: 'E-posta', text: 'info@evossmarthome.com', href: 'mailto:info@evossmarthome.com' },
+                { icon: <MapPin size={18} />, label: 'Adres', text: 'Levent, İstanbul', href: 'https://maps.google.com/?q=Levent+Istanbul' },
               ].map((c, i) => (
                 <div key={i} className="contact-detail">
                   <div className="contact-detail-icon">{c.icon}</div>
-                  <div><div className="contact-detail-label">{c.label}</div><div className="contact-detail-text">{c.text}</div></div>
+                  <div><div className="contact-detail-label">{c.label}</div>{c.href ? <a href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined} className="contact-detail-text contact-detail-link">{c.text}</a> : <div className="contact-detail-text">{c.text}</div>}</div>
                 </div>
               ))}
             </motion.div>
@@ -762,7 +668,7 @@ const App = () => {
             <div>
               <h3 className="footer-col-title">Çözümler</h3>
               <ul className="footer-links">
-                {['Aydınlatma Kontrolü', 'İklimlendirme', 'Güvenlik Sistemleri', 'Ses ve Görüntü', 'Enerji Yönetimi'].map(l => <li key={l}><a href="#" onClick={e => e.preventDefault()}>{l}</a></li>)}
+                {['Aydınlatma Kontrolü', 'İklimlendirme', 'Güvenlik Sistemleri', 'Ses ve Görüntü', 'Enerji Yönetimi'].map(l => <li key={l}><a href="#cozumler" onClick={e => { e.preventDefault(); scrollTo('cozumler'); }}>{l}</a></li>)}
               </ul>
             </div>
             <div>
@@ -775,24 +681,33 @@ const App = () => {
               </ul>
             </div>
             <div>
-              <h3 className="footer-col-title">Bültene Katılın</h3>
+              <h3 className="footer-col-title">İletişim</h3>
               <div className="footer-newsletter">
-                <p>Akıllı ev dünyasından haberler ve özel teklifler.</p>
-                <form className="footer-newsletter-form" onSubmit={e => e.preventDefault()}>
-                  <input type="email" className="footer-newsletter-input" placeholder="E-posta adresiniz" />
-                  <button type="submit" className="footer-newsletter-btn">Abone Ol</button>
-                </form>
+                <p>Akıllı ev sisteminiz için hemen iletişime geçin.</p>
+                <a href="tel:+905333513644" className="footer-phone-link">
+                  <Phone size={16} /> 0 533 351 36 44
+                </a>
+                <a href="https://wa.me/905333513644" target="_blank" rel="noopener noreferrer" className="footer-whatsapp-link">
+                  <MessageCircle size={16} /> WhatsApp ile Yazın
+                </a>
               </div>
             </div>
           </div>
           <div className="footer-bottom">
             <p>&copy; {new Date().getFullYear()} EVOS Smarthome. Tüm hakları saklıdır.</p>
             <div className="footer-bottom-links">
-              {/* Daha sonra eklenecek gizlilik sayfaları buraya gelecek */}
+              <a href="#" onClick={e => e.preventDefault()}>Gizlilik Politikası</a>
+              <a href="#" onClick={e => e.preventDefault()}>KVKK Aydınlatma Metni</a>
+              <a href="#" onClick={e => e.preventDefault()}>Kullanım Şartları</a>
             </div>
           </div>
         </div>
       </footer>
+
+      {/* WhatsApp Floating Button */}
+      <a href="https://wa.me/905333513644" target="_blank" rel="noopener noreferrer" className={`whatsapp-float ${scrollY > 300 ? 'visible' : ''}`} aria-label="WhatsApp ile İletişim">
+        <MessageCircle size={24} />
+      </a>
 
       <button className={`scroll-top ${scrollY > 400 ? 'visible' : ''}`} aria-label="Yukarı Çık" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}><ArrowUp size={20} /></button>
     </div>
